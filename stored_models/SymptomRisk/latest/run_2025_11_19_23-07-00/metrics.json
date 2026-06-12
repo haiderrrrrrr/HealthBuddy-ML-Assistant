@@ -1,0 +1,11 @@
+{
+    "timestamp": "2025_11_19_23-07-00",
+    "device": "cuda",
+    "input_dim": 1300,
+    "output_dim": 400,
+    "epochs": 15,
+    "final_train_loss": 96.13675233739195,
+    "final_val_loss": 0.002932785078883171,
+    "test_loss": 0.0029357115272432566,
+    "test_top1_acc": 0.7369
+}

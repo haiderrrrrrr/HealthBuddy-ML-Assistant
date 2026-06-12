@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HealthBuddy – Index</title>
+  <link rel="icon" href="/static/logoo.png" type="image/png">
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="background"><div class="content">
+  <div class="container">
+    <h1>Health Buddy</h1>
+    <div class="card">
+      <h2>Step 1 — Enter Symptoms</h2>
+      <label>Describe your symptoms</label>
+      <input id="symptomText" type="text" placeholder="e.g. Fever, headache and cough" />
+      <p class="hint">Press Enter to preview matched symptoms and top conditions.
+        Names show if a labels file is present.</p>
+      <h3>Matched Symptoms</h3>
+      <pre id="matchedOut"></pre>
+      <h3>Top Conditions</h3>
+      <pre id="topOut"></pre>
+      <p class="hint" id="labelsHint"></p>
+    </div>
+
+    <div class="card">
+      <h2>Step 2 — Enter Lifestyle Metrics</h2>
+      <div class="grid">
+        <div>
+          <label>Age</label>
+          <input id="age" type="number" placeholder="28" />
+        </div>
+        <div>
+          <label>BMI</label>
+          <input id="bmi" type="number" placeholder="27" />
+        </div>
+        <div>
+          <label>Sleep hours</label>
+          <input id="sleep" type="number" placeholder="6" />
+        </div>
+        <div>
+          <label>Smoking</label>
+          <select id="smoking"><option value="0">No</option><option value="1">Yes</option></select>
+        </div>
+        <div>
+          <label>Physical activity</label>
+          <select id="activity"><option value="1">Active</option><option value="0">Inactive</option></select>
+        </div>
+        <div>
+          <label>Systolic BP</label>
+          <input id="bp" type="number" placeholder="122" />
+        </div>
+      </div>
+      <button id="btnLifestyle">Next</button>
+      <h3>Lifestyle Risk</h3>
+      <pre id="lifeOut"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Step 3 — Enter Medical Query</h2>
+      <label>Medical query</label>
+      <input id="query" type="text" placeholder="diabetes symptoms" />
+      <button id="btnQuery">Next</button>
+      <h3>MedQuAD Guidance</h3>
+      <pre id="medquadOut"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Step 4 — View Report</h2>
+      <button id="btnReport">View Report</button>
+      <div class="grid">
+        <div>
+          <h3>English</h3>
+          <pre id="engOut"></pre>
+        </div>
+        <div>
+          <h3>Urdu</h3>
+          <pre id="urduOut"></pre>
+        </div>
+      </div>
+      <div id="downloadBox" style="margin-top:8px"></div>
+    </div>
+  </div>
+  </div></div>
+  <script>
+    function collectSymptoms(){
+      // Use ONLY the typed field for extraction and display
+      return document.getElementById('symptomText').value;
+    }
+
+    // Step 1: Preview symptom results on Enter
+    document.getElementById('symptomText').addEventListener('keydown', async (e)=>{
+      if(e.key === 'Enter'){
+        const symptom_text = collectSymptoms();
+        const res = await fetch('/healthbuddy/report',{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({symptom_text, preview:true})
+        });
+        const j = await res.json();
+        document.getElementById('matchedOut').textContent = (j.matched_symptoms||[]).join(', ');
+        const names = j.top_conditions||[];
+        const ids = j.top_condition_ids||[];
+        const lines = names.map((n,i)=> (ids && ids[i] != null) ? `${n} (${ids[i]})` : n);
+        document.getElementById('topOut').textContent = lines.join('\n');
+        const hintEl = document.getElementById('labelsHint');
+        if(hintEl){ hintEl.textContent = j.labels_present ? '' : 'Condition names require labels.json. Ask an admin to install labels.'; }
+      }
+    });
+
+    // Step 2: Lifestyle Next → show risk results
+    document.getElementById('btnLifestyle').onclick = async ()=>{
+      const age = Number(document.getElementById('age').value||0);
+      const bmi = Number(document.getElementById('bmi').value||0);
+      const sleep_hours = Number(document.getElementById('sleep').value||0);
+      const smoking = Number(document.getElementById('smoking').value||0);
+      const phys_activity = Number(document.getElementById('activity').value||0);
+      const systolic_bp = Number(document.getElementById('bp').value||0);
+      const feats = [age, bmi, sleep_hours, smoking, phys_activity, systolic_bp];
+      const resp = await fetch('/predict/lifestyle-risk', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({lifestyle_features: feats})});
+      const j = await resp.json();
+      const labels = ['No Diabetes','Prediabetes','Diabetes'];
+      const cls = labels[j.risk_class] || String(j.risk_class);
+      const probs = (j.class_probs||[]).map((p,i)=>`${labels[i]}: ${(p*100).toFixed(1)}%`).join('\n');
+      document.getElementById('lifeOut').textContent = `Class: ${cls}\n${probs}`;
+    };
+
+    // Step 3: Query Next → show MedQuAD results
+    document.getElementById('btnQuery').onclick = async ()=>{
+      const q = document.getElementById('query').value || 'diabetes symptoms';
+      const resp = await fetch('/retrieve/medquad', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({query: q})});
+      const items = await resp.json();
+      const text = items.map(r=>`Q: ${r.question}\nA: ${r.answer.slice(0,220)}...\nSource: ${r.source||''}`).join('\n\n');
+      document.getElementById('medquadOut').textContent = text;
+    };
+
+    // Step 4: View Report → show English/Urdu and download link
+    document.getElementById('btnReport').onclick = async () => {
+      const symptom_text = collectSymptoms();
+      const age = Number(document.getElementById('age').value||0);
+      const bmi = Number(document.getElementById('bmi').value||0);
+      const sleep_hours = Number(document.getElementById('sleep').value||0);
+      const smoking = Number(document.getElementById('smoking').value||0);
+      const phys_activity = Number(document.getElementById('activity').value||0);
+      const systolic_bp = Number(document.getElementById('bp').value||0);
+      const q = document.getElementById('query').value || 'diabetes symptoms';
+      const res = await fetch('/healthbuddy/report',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({symptom_text,age,bmi,sleep_hours,smoking,phys_activity,systolic_bp,query:q})
+      });
+      const j = await res.json();
+      document.getElementById('engOut').textContent = j.english || '';
+      document.getElementById('urduOut').textContent = j.urdu || '';
+      const dl = j.download_url ? `<a href="${j.download_url}" class="btn" download>Download PDF</a>` : '';
+      document.getElementById('downloadBox').innerHTML = dl;
+    };
+
+    // Admin labels are managed via /admin, not shown here.
+  </script>
+</body>
+</html>

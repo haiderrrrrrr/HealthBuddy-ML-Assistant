@@ -1,0 +1,122 @@
+/* train-model.css */
+
+/* 1) Make room for the fixed sidebar on the left */
+body {
+  /* match your sidebar’s width */
+  padding-left: 230px;
+}
+
+/* 2) Center your “train” panel in the remaining area */
+.train-wrapper {
+  max-width: 900px;       /* column width */
+  margin: 4rem auto;      /* top margin + center */
+  padding: 2rem;
+  position: relative;
+  z-index: 900;           /* under the sidebar */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  /* card background */
+  background: linear-gradient(135deg, #c2c2c2, #d0d0d0);
+  border-top: 6px solid #003366;
+}
+
+/* —— Main Heading —— */
+.main-heading {
+  display: block;
+  color: #181818;
+  font-size: 3rem;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 80px;
+  margin-bottom: 60px;
+  margin-left: 20px;
+  letter-spacing: 3px;
+  position: relative;
+  z-index: 200;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.main-heading::after {
+  content: '';
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+/* 3) Make the progress bar fill that column */
+#progressWrapper {
+  width: 100%;
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+#progressBar {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  transition: width 0.2s ease;
+}
+
+/* 4) Logs take full width inside the wrapper */
+#logOutput {
+  width: 100%;
+  height: 250px;
+  background: #111;
+  color: #0f0;
+  font-family: monospace;
+  padding: 1rem;
+  margin-top: 1rem;
+  overflow-y: auto;
+  border-radius: 6px;
+  white-space: pre-wrap;
+}
+
+/* 5) Report too */
+#reportContainer {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+/* 6) Button styling */
+.form-actions {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 2rem;
+}
+.btn-predict {
+  display: inline-block;
+  padding: 0.8rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  border: none;
+  border-radius: 2rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 200;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.btn-predict:hover {
+  transform: scale(1.05) rotate(-1deg);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+/* 7) Keep the sidebar above everything */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 230px;
+  z-index: 1500;
+}

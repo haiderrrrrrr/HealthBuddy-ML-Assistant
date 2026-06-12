@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- favicon -->
+  <link rel="icon" href="/static/logoo.png" type="image/png">
+  <title>HealthBuddy – Diagnostic</title>
+  <!-- Raleway Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+  <!----======== CSS ======== -->
+  <link rel="stylesheet" href="/static/userDashboard.css" />
+  <link rel="stylesheet" href="/static/predictor-from.css" />
+
+  <!-- Google Fonts Link For Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+    <script src="
+    https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js
+    "></script>
+</head>
+
+<body>
+<nav class="sidebar close">
+  <header>
+    <div class="image-text">
+      <span class="image">
+        <img src="/static/logoo.png" alt="logo"/>
+      </span>
+      <div class="text logo-text">
+        <span class="name">HealthBuddy</span>
+        <span class="profession">App</span>
+      </div>
+    </div>
+    <i class="bx bx-chevron-right toggle"></i>
+  </header>
+  <div class="menu-bar">
+    <div class="menu">
+      <li class="search-box">
+        <i class="bx bx-search icon"></i>
+        <input type="text" placeholder="Search..." />
+      </li>
+      <ul class="menu-links">
+        <li class="nav-link"><a href="/dashboard">
+          <i class="bx bx-home-alt icon"></i>
+          <span class="text nav-text">Dashboard</span>
+        </a></li>
+        <li class="nav-link"><a href="/about">
+          <i class="bx bx-info-circle icon"></i>
+          <span class="text nav-text">Our Mission</span>
+        </a></li>
+        <li class="nav-link"><a href="/predictor">
+          <i class="bx bx-rocket icon"></i>
+          <span class="text nav-text">Predictor Tool</span>
+        </a></li>
+        <li class="nav-link"><a href="/privacy">
+          <i class="bx bx-lock icon"></i>
+          <span class="text nav-text">Privacy & Terms of Use</span>
+        </a></li>
+        <li class="nav-link"><a href="/faq">
+          <i class="bx bx-question-mark icon"></i>
+          <span class="text nav-text">FAQ / Help Center</span>
+        </a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <section class="home">
+  <div class="background"><div class="content">
+    <div class="predictor-form">
+    <div class="container">
+      <div class="actions-row" style="justify-content:flex-end;">
+        <button id="btnClear" class="btn-predict btn-clear">Clear Form</button>
+      </div>
+      
+      <div class="card">
+        <h2>Step 1 — Enter Symptoms</h2>
+        <label>Describe your symptoms</label>
+        <textarea id="symptomText" rows="5" placeholder="e.g. Fever, headache and cough"></textarea>
+        <button id="btnSymptomSubmit" class="btn-predict" style="margin-top:12px;">Submit</button>
+        <p class="hint">Click Submit to Check Top Conditions you might be suffeirng from!</p>
+        <h3>Matched Symptoms</h3>
+        <pre id="matchedOut"></pre>
+        <h3>Top Conditions</h3>
+        <ol id="topOutList" class="top-list"></ol>
+        <h3>Doctor</h3>
+        <div id="doctorOut" class="doctor-note"></div>
+        <p class="hint" id="labelsHint"></p>
+      </div>
+
+      <div class="card">
+        <h2>Step 2 — Enter Lifestyle Metrics</h2>
+        <div class="grid">
+          <div>
+            <label>Age</label>
+            <input id="age" type="number" placeholder="28" />
+          </div>
+          <div>
+            <label>BMI</label>
+            <input id="bmi" type="number" placeholder="27" />
+          </div>
+          <div>
+            <label>Sleep hours</label>
+            <input id="sleep" type="number" placeholder="6" />
+          </div>
+          <div>
+            <label>Smoking</label>
+            <select id="smoking"><option value="0">No</option><option value="1">Yes</option></select>
+          </div>
+          <div>
+            <label>Physical activity</label>
+            <select id="activity"><option value="1">Active</option><option value="0">Inactive</option></select>
+          </div>
+          <div>
+            <label>Systolic BP</label>
+            <input id="bp" type="number" placeholder="122" />
+          </div>
+        </div>
+        <button id="btnLifestyle">Next</button>
+        <h3>Lifestyle Risk</h3>
+        <pre id="lifeOut"></pre>
+        <details id="lifeDetails">
+          <summary>Show details</summary>
+          <pre id="lifeProbs"></pre>
+        </details>
+        <h3>Summary</h3>
+        <div id="lifeSummary" class="doctor-note"></div>
+        <h3>Doctor</h3>
+        <div id="doctorLifeOut" class="doctor-note"></div>
+      </div>
+
+      <div class="card">
+        <h2>Step 3 — Enter Medical Query</h2>
+        <label>Medical query</label>
+        <textarea id="query" rows="3" placeholder="Type your medical question"></textarea>
+        <div class="actions-row">
+          <button id="btnQuery" class="btn-predict">Ask More</button>
+          <button id="btnQueryNext" class="btn-predict">Next Step</button>
+        </div>
+        <h3>Diagnosed Conditions</h3>
+        <ol id="diagOut" class="top-list"></ol>
+        <h3>Symptoms</h3>
+        <div id="symOut" class="chip-wrap"></div>
+        <h3>Suggestions</h3>
+        <div id="querySuggestions" class="chip-wrap"></div>
+        <h3>MedQuAD Guidance</h3>
+        <pre id="medquadOut"></pre>
+      </div>
+
+      <div class="card">
+        <h2>Step 4 — Report</h2>
+        <div class="actions-row">
+          <button id="btnReport" class="btn-predict">View Report</button>
+          <a id="btnDownload" class="btn-predict" href="#" download style="display:none;">Download PDF</a>
+        </div>
+        <h3>English Report</h3>
+        <pre id="engOut" class="report-box"></pre>
+        <div class="new-diagnostic-wrap">
+          <button id="btnNewDiagnostic" class="btn-predict btn-new">Make New Diagnostic</button>
+        </div>
+      </div>
+      <div class="wizard-actions">
+        <button id="prevWizard" class="btn-predict">Previous</button>
+        <button id="nextWizard" class="btn-predict">Next</button>
+      </div>
+    </div>
+    </div>
+  </div></div>
+  </section>
+
+
+
+  
+
+  <script>
+    // Sidebar toggle (theme)
+    const body = document.querySelector("body"),
+      sidebar = body.querySelector("nav"),
+      toggle = body.querySelector(".toggle"),
+      searchBtn = body.querySelector(".search-box");
+
+    toggle.addEventListener("click", () => { sidebar.classList.toggle("close"); });
+    searchBtn.addEventListener("click", () => { sidebar.classList.remove("close"); });
+
+    // Index form functionality (unchanged)
+    function collectSymptoms(){
+      return document.getElementById('symptomText').value;
+    }
+
+    document.getElementById('btnSymptomSubmit').addEventListener('click', async ()=>{ try{ localStorage.setItem('hb_session_active','1'); }catch(err){} await previewSymptoms(); });
+    document.getElementById('symptomText').addEventListener('input', (e)=>{
+      try{ localStorage.setItem('hb_symptom_text', e.target.value||''); }catch(err){}
+    });
+  
+    document.getElementById('btnLifestyle').onclick = async ()=>{
+      const age = Number(document.getElementById('age').value||0);
+      const bmi = Number(document.getElementById('bmi').value||0);
+      const sleep_hours = Number(document.getElementById('sleep').value||0);
+      const smoking = Number(document.getElementById('smoking').value||0);
+      const phys_activity = Number(document.getElementById('activity').value||0);
+      const systolic_bp = Number(document.getElementById('bp').value||0);
+      if(!age || !bmi || !sleep_hours || !systolic_bp){
+        document.getElementById('lifeSummary').textContent = 'Please fill all lifestyle metrics first.';
+        return;
+      }
+      try{ localStorage.setItem('hb_session_active','1'); }catch(err){}
+      const feats = [age, bmi, sleep_hours, smoking, phys_activity, systolic_bp];
+      const resp = await fetch('/predict/lifestyle-risk', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({lifestyle_features: feats})});
+      const j = await resp.json();
+      const labels = ['No Diabetes','Prediabetes','Diabetes'];
+      const cls = labels[j.risk_class] || String(j.risk_class);
+      const probs = (j.class_probs||[]).map((p,i)=>`${labels[i]}: ${(p*100).toFixed(1)}%`).join('\n');
+      const lifeOutEl = document.getElementById('lifeOut');
+      const badgeClass = cls === 'Diabetes' ? 'bg-danger' : (cls === 'Prediabetes' ? 'bg-warning' : 'bg-success');
+      lifeOutEl.innerHTML = `<span class=\"badge ${badgeClass}\">${cls.toUpperCase()}</span>`;
+      document.getElementById('lifeProbs').textContent = probs;
+      document.getElementById('lifeSummary').textContent = j.summary_sentence || '';
+      document.getElementById('doctorLifeOut').textContent = j.doctor_lifestyle || '';
+      try{
+        localStorage.setItem('hb_age', String(age));
+        localStorage.setItem('hb_bmi', String(bmi));
+        localStorage.setItem('hb_sleep', String(sleep_hours));
+        localStorage.setItem('hb_smoking', String(smoking));
+        localStorage.setItem('hb_activity', String(phys_activity));
+        localStorage.setItem('hb_bp', String(systolic_bp));
+        localStorage.setItem('hb_life_class', cls);
+        localStorage.setItem('hb_life_probs', probs);
+        localStorage.setItem('hb_life_summary', j.summary_sentence||'');
+        localStorage.setItem('hb_doctor_life', j.doctor_lifestyle||'');
+      }catch(err){}
+    };
+
+    document.getElementById('btnQuery').onclick = async ()=>{
+      const q = document.getElementById('query').value || '';
+      if(!q.trim()){ document.getElementById('medquadOut').textContent = 'Please type a medical question.'; return; }
+      try{ localStorage.setItem('hb_session_active','1'); }catch(err){}
+      const resp = await fetch('/retrieve/medquad', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({query: q})});
+      const items = await resp.json();
+      const text = items.map(r=>`Q: ${r.question}\nA: ${r.answer}\nSource: ${r.source||''}`).join('\n\n');
+      document.getElementById('medquadOut').textContent = text;
+      try{ localStorage.setItem('hb_query', q); localStorage.setItem('hb_medquad', text); }catch(err){}
+    };
+
+    document.getElementById('btnQueryNext').onclick = async ()=>{
+      await document.getElementById('btnQuery').click();
+      if(stepIdx<cards.length-1){ stepIdx++; showStep(stepIdx); }
+    };
+
+    document.getElementById('btnReport').onclick = async () => {
+      const symptom_text = collectSymptoms();
+      const age = Number(document.getElementById('age').value||0);
+      const bmi = Number(document.getElementById('bmi').value||0);
+      const sleep_hours = Number(document.getElementById('sleep').value||0);
+      const smoking = Number(document.getElementById('smoking').value||0);
+      const phys_activity = Number(document.getElementById('activity').value||0);
+      const systolic_bp = Number(document.getElementById('bp').value||0);
+      const q = document.getElementById('query').value || '';
+      const res = await fetch('/healthbuddy/report',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({symptom_text,age,bmi,sleep_hours,smoking,phys_activity,systolic_bp,query:q})
+      });
+      const j = await res.json();
+      document.getElementById('engOut').textContent = j.english || '';
+      const dlBtn = document.getElementById('btnDownload');
+      if(dlBtn){
+        if(j.download_url){ dlBtn.href = j.download_url; dlBtn.style.display = 'inline-block'; dlBtn.classList.add('btn-download'); }
+        else { dlBtn.style.display = 'none'; }
+      }
+      try{ localStorage.setItem('hb_english', j.english||''); localStorage.setItem('hb_download_url', j.download_url||''); }catch(err){}
+    };
+
+    ['age','bmi','sleep','smoking','activity','bp','query'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el){ el.addEventListener('change',()=>{ try{ localStorage.setItem('hb_'+id, el.value||''); }catch(err){} }); }
+    });
+  </script>
+
+  <script>
+    const cards = document.querySelectorAll('.predictor-form .card');
+    let stepIdx = 0;
+    function showStep(i){
+      cards.forEach((c,idx)=>{ c.style.display = (idx===i)?'':'none'; });
+      document.getElementById('prevWizard').disabled = i===0;
+      document.getElementById('nextWizard').disabled = i===cards.length-1;
+      if(i===0){ loadStep1(); }
+      if(i===1){ loadStep2(); }
+      if(i===2){ loadStep3(); }
+      if(i===3){ loadStep4(); }
+    }
+    showStep(stepIdx);
+
+    function loadStep1(){
+      if(localStorage.getItem('hb_session_active')!=='1'){ return; }
+      try{
+        const t = localStorage.getItem('hb_symptom_text')||'';
+        const matched = JSON.parse(localStorage.getItem('hb_matched_symptoms')||'[]');
+        const top = JSON.parse(localStorage.getItem('hb_top_conditions')||'[]');
+        const note = localStorage.getItem('hb_doctor_note')||'';
+        document.getElementById('symptomText').value = t;
+        document.getElementById('matchedOut').textContent = matched.join(', ');
+        const list = document.getElementById('topOutList');
+        list.innerHTML = '';
+        top.forEach((n,i)=>{
+          const li = document.createElement('li');
+          li.textContent = n;
+          if(i===0){ const b=document.createElement('span'); b.className='top-badge'; b.textContent='Highly suspected'; li.appendChild(document.createTextNode(' ')); li.appendChild(b); }
+          list.appendChild(li);
+        });
+        document.getElementById('doctorOut').textContent = note;
+      }catch(err){}
+    }
+
+    function loadStep2(){
+      if(localStorage.getItem('hb_session_active')!=='1'){ return; }
+      try{
+        const get=(k)=>localStorage.getItem(k)||'';
+        document.getElementById('age').value = get('hb_age');
+        document.getElementById('bmi').value = get('hb_bmi');
+        document.getElementById('sleep').value = get('hb_sleep');
+        document.getElementById('smoking').value = get('hb_smoking');
+        document.getElementById('activity').value = get('hb_activity');
+        document.getElementById('bp').value = get('hb_bp');
+        const cls = get('hb_life_class');
+        const probs = get('hb_life_probs');
+        const sum = get('hb_life_summary');
+        const doc = get('hb_doctor_life');
+        if(cls){
+          const badgeClass = cls === 'Diabetes' ? 'bg-danger' : (cls === 'Prediabetes' ? 'bg-warning' : 'bg-success');
+          document.getElementById('lifeOut').innerHTML = `<span class="badge ${badgeClass}">${cls.toUpperCase()}</span>`;
+        }
+        document.getElementById('lifeProbs').textContent = probs||'';
+        document.getElementById('lifeSummary').textContent = sum||'';
+        document.getElementById('doctorLifeOut').textContent = doc||'';
+      }catch(err){}
+    }
+
+    function loadStep3(){
+      if(localStorage.getItem('hb_session_active')!=='1'){ return; }
+      let syms = [];
+      let conds = [];
+      try{
+        syms = JSON.parse(localStorage.getItem('hb_matched_symptoms')||'[]');
+        conds = JSON.parse(localStorage.getItem('hb_top_conditions')||'[]');
+      }catch(e){}
+      const diagOut = document.getElementById('diagOut');
+      const symOut = document.getElementById('symOut');
+      const sug = document.getElementById('querySuggestions');
+      if(diagOut){
+        diagOut.innerHTML = '';
+        conds.forEach((n,i)=>{
+          const li = document.createElement('li');
+          li.textContent = n;
+          if(i===0){
+            const badge = document.createElement('span');
+            badge.className = 'top-badge';
+            badge.textContent = 'Highly suspected';
+            li.appendChild(document.createTextNode(' '));
+            li.appendChild(badge);
+          }
+          diagOut.appendChild(li);
+        });
+      }
+      if(symOut){
+        symOut.innerHTML = '';
+        syms.forEach(s=>{
+          const chip = document.createElement('span');
+          chip.className = 'chip';
+          chip.textContent = s;
+          chip.addEventListener('click',()=>{
+            const q = `Which conditions cause ${s}?`;
+            document.getElementById('query').value = q;
+            document.getElementById('btnQuery').click();
+          });
+          symOut.appendChild(chip);
+        });
+      }
+      if(sug){
+        sug.innerHTML = '';
+        const lead = conds[0];
+        const qs = lead ? [
+          `What is ${lead}?`,
+          `What tests are needed for ${lead}?`,
+          `How to prevent ${lead}?`
+        ] : [];
+        qs.forEach(t=>{
+          const chip = document.createElement('span');
+          chip.className = 'chip';
+          chip.textContent = t;
+          chip.addEventListener('click',()=>{
+            document.getElementById('query').value = t;
+            document.getElementById('btnQuery').click();
+          });
+          sug.appendChild(chip);
+        });
+      }
+      try{
+        const q = localStorage.getItem('hb_query')||'';
+        const m = localStorage.getItem('hb_medquad')||'';
+        document.getElementById('query').value = q;
+        document.getElementById('medquadOut').textContent = m;
+      }catch(err){}
+    }
+
+    async function previewSymptoms(){
+      const symptom_text = document.getElementById('symptomText').value;
+      const res = await fetch('/healthbuddy/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({symptom_text, preview:true})});
+      const j = await res.json();
+      document.getElementById('matchedOut').textContent = (j.matched_symptoms||[]).join(', ');
+      const names = j.top_conditions||[];
+      const list = document.getElementById('topOutList');
+      list.innerHTML = '';
+      if(j.no_symptom_match){
+        document.getElementById('doctorOut').textContent = j.alert_message || 'Good Alert: No sufficient symptom match.';
+      }
+      names.forEach((n,i)=>{
+        const li = document.createElement('li');
+        li.textContent = n;
+        if(i===0){
+          const badge = document.createElement('span');
+          badge.className = 'top-badge';
+          badge.textContent = 'Highly suspected';
+          li.appendChild(document.createTextNode(' '));
+          li.appendChild(badge);
+        }
+        list.appendChild(li);
+      });
+      document.getElementById('doctorOut').textContent = j.doctor_note || '';
+      const hintEl = document.getElementById('labelsHint');
+      if(hintEl){ hintEl.textContent = j.labels_present ? '' : 'Condition names require labels.json. Ask an admin to install labels.'; }
+      try{
+        localStorage.setItem('hb_matched_symptoms', JSON.stringify(j.matched_symptoms||[]));
+        localStorage.setItem('hb_top_conditions', JSON.stringify(names||[]));
+        localStorage.setItem('hb_doctor_note', j.doctor_note||'');
+      }catch(e){}
+    }
+
+    document.getElementById('prevWizard').addEventListener('click',()=>{ if(stepIdx>0){ stepIdx--; showStep(stepIdx); }});
+    document.getElementById('nextWizard').addEventListener('click',()=>{ if(stepIdx<cards.length-1){ stepIdx++; showStep(stepIdx); } });
+
+    function clearAll(){
+      try{
+        ['hb_symptom_text','hb_matched_symptoms','hb_top_conditions','hb_doctor_note','hb_age','hb_bmi','hb_sleep','hb_smoking','hb_activity','hb_bp','hb_life_class','hb_life_probs','hb_life_summary','hb_doctor_life','hb_query','hb_medquad','hb_english','hb_download_url'].forEach(k=>localStorage.removeItem(k));
+      }catch(err){}
+      document.getElementById('symptomText').value = '';
+      document.getElementById('matchedOut').textContent = '';
+      document.getElementById('topOutList').innerHTML = '';
+      document.getElementById('doctorOut').textContent = '';
+      document.getElementById('age').value = '';
+      document.getElementById('bmi').value = '';
+      document.getElementById('sleep').value = '';
+      document.getElementById('smoking').value = '0';
+      document.getElementById('activity').value = '1';
+      document.getElementById('bp').value = '';
+      document.getElementById('lifeOut').innerHTML = '';
+      document.getElementById('lifeProbs').textContent = '';
+      document.getElementById('lifeSummary').textContent = '';
+      document.getElementById('doctorLifeOut').textContent = '';
+      document.getElementById('query').value = '';
+      document.getElementById('medquadOut').textContent = '';
+      document.getElementById('engOut').textContent = '';
+      const dlBtn = document.getElementById('btnDownload'); if(dlBtn){ dlBtn.style.display = 'none'; dlBtn.href = '#'; }
+      stepIdx = 0; showStep(stepIdx);
+    }
+    document.getElementById('btnClear').addEventListener('click', clearAll);
+    document.getElementById('btnNewDiagnostic').addEventListener('click', clearAll);
+
+    function loadStep4(){
+      if(localStorage.getItem('hb_session_active')!=='1'){ return; }
+      try{
+        const eng = localStorage.getItem('hb_english')||'';
+        const url = localStorage.getItem('hb_download_url')||'';
+        document.getElementById('engOut').textContent = eng;
+        const dlBtn = document.getElementById('btnDownload');
+        if(dlBtn){ if(url){ dlBtn.href = url; dlBtn.style.display='inline-block'; dlBtn.classList.add('btn-download'); } else { dlBtn.style.display='none'; } }
+      }catch(err){}
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  </body>
+
+</html>

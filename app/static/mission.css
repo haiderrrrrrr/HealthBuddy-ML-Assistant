@@ -1,0 +1,110 @@
+/* mission.css (load this file last to ensure it overrides others) */
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+}
+
+body {
+  background: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Wrapper */
+.mission-wrapper {
+  width: 100%;
+  max-width: 1400px;   /* increased overall max width */
+  margin: 0 auto;
+  position: relative;
+  z-index: 1000;
+  padding-right: 50px; /* push content slightly to the right */
+}
+
+/* Page Title */
+.mission-wrapper > h1 {
+  color: #181818;
+  font-size: 3rem;
+  text-transform: uppercase;
+  margin-top: 60px;     /* added space above heading */
+  margin-bottom: 40px;
+  text-align: center; 
+  margin-left:280px;   /* align heading to the right */
+  letter-spacing: 2px;
+}
+
+/* Card Container */
+#mission-card-container {
+  display: flex;
+  margin-right:80px;
+  justify-content: flex-end;  /* push card to the right */
+  padding: 0 20px 40px;       /* extra bottom padding for breathing room */
+}
+
+/* Mission Card */
+.mission-card {
+  background: linear-gradient(135deg, #c2c2c2, #d0d0d0);
+  border-top: 6px solid #003366;    /* bold accent stripe */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 900px;                 /* made card broader */
+  width: 90%;
+  color: #181818;
+  transition: transform 0.3s ease;
+  margin-left: 350px;                /* ensure some gap from left edge */
+}
+
+.mission-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Card Heading */
+.mission-card h2 {
+  font-size: 2.4rem;
+  text-align: center;
+  color: #003366;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+/* Paragraphs */
+.mission-card p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  text-transform: capitalize;       /* capitalizes first letter of each word */
+  letter-spacing: 0.5px;
+}
+
+/* No extra margin on last paragraph */
+.mission-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* Decorative first letter */
+.mission-card p::first-letter {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #003366;
+  float: left;
+  margin-right: 8px;
+  line-height: 1;
+}
+
+/* Highlight <strong> text */
+.mission-card p strong {
+  font-weight: 700;
+  color: #004080;
+  text-transform: uppercase;
+  background: rgba(0, 60, 120, 0.1);
+  padding: 2px 4px;
+  border-radius: 3px;
+}

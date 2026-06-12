@@ -1,0 +1,161 @@
+/* scan-history.css */
+
+/* —— push below nav/sidebar —— */
+.mission-wrapper {
+  margin-top: 4rem;  /* make room for your fixed sidebar/header */
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 1000;
+}
+
+/* —— Page Title —— */
+.mission-wrapper > h1 {
+  font-family: "Raleway", sans-serif;
+  font-size: 3rem;
+  text-transform: uppercase;
+  text-align: center;
+  color: #181818;
+  margin-bottom: 2rem;
+  letter-spacing: 2px;
+  position: relative;
+  margin-left:230px;
+}
+.mission-wrapper > h1::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+/* —— Card Container —— */
+#history-card-container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 4rem;
+}
+
+/* —— Card Itself —— */
+.mission-card {
+  background: linear-gradient(135deg, #c2c2c2, #d0d0d0);
+  border-top: 6px solid #003366;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-left:230px;
+}
+.mission-card h2 {
+  font-family: "Raleway", sans-serif;
+  font-size: 2.2rem;
+  color: #003366;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* —— Table Styles —— */
+.table-responsive {
+  overflow-x: auto;
+}
+#historyTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Raleway", sans-serif;
+}
+#historyTable thead {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+#historyTable thead th {
+  color: #fff;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* subtle dividing line under each row */
+#historyTable tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  transition: background 0.2s ease;
+}
+/* alternating gentle stripes */
+#historyTable tbody tr:nth-child(odd) {
+  background: rgba(194, 194, 194, 0.10);
+}
+#historyTable tbody tr:nth-child(even) {
+  background: rgba(194, 194, 194, 0.05);
+}
+/* hover accent using your brand blue */
+#historyTable tbody tr:hover {
+  background: rgba(37, 117, 252, 0.10);
+}
+/* row cells */
+#historyTable tbody td {
+  padding: 0.75rem 1rem;
+  color: #333;
+  white-space: nowrap;
+}
+/* drop the line after the last row */
+#historyTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* —— Download CSV Button —— */
+#downloadCsv {
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  color: #fff;
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-block;
+}
+#downloadCsv:hover {
+  transform: scale(1.05) rotate(-1deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* —— Keep sidebar & .home underneath —— */
+.sidebar,
+.home {
+  z-index: 500;
+}
+
+/* —— Mobile tweaks —— */
+@media (max-width: 768px) {
+  .mission-wrapper { padding: 1rem 0.5rem; }
+  .mission-card    { padding: 1.5rem; }
+  #historyTable thead { display: none; }
+  #historyTable, #historyTable tbody, #historyTable tr, #historyTable td {
+    display: block; width: 100%;
+  }
+  #historyTable tr { margin-bottom: 1rem; }
+  #historyTable td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+  #historyTable td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    width: calc(50% - 2rem);
+    font-weight: 600;
+    text-align: left;
+  }
+}

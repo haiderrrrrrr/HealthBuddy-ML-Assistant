@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- favicon -->
+  <link rel="icon" href="/static/logoo.png" type="image/png">
+  <title>Privacy & Terms of Use – HealthBuddy</title>
+
+  <!-- Raleway Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- your app CSS -->
+  <link rel="stylesheet" href="/static/userDashboard.css" />
+  <link rel="stylesheet" href="/static/termsOfUse.css" />
+
+  
+  <!-- Google Fonts Link For Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+    <script src="
+    https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js
+    "></script>
+</head>
+<body>
+
+  <div class="background"><div class="content">
+  <main class="mission-wrapper">
+    <h1>Privacy &amp; Terms of Use</h1>
+
+    <!-- PRIVACY CARD -->
+    <div id="mission-card-container">
+      <div class="mission-card">
+        <h2>Privacy Policy</h2>
+        <p><strong>Your Data, Your Control.</strong> We collect only the health and lifestyle details you enter. We do <em>not</em> upload or process any X-ray or CT scans.</p>
+        <p><strong>Data Security.</strong> All inputs are encrypted in transit and at rest (AES-256/TLS), following industry best practices.</p>
+        <p><strong>No Third-Party Sharing.</strong> We never sell or share your data without explicit consent.</p>
+        <p><strong>Retention &amp; Deletion.</strong> You can delete your account and all associated data any time via your dashboard or by contacting support.</p>
+        <p><strong>Compliance.</strong> We adhere to HIPAA-aligned standards to protect your privacy.</p>
+        <p><strong>Questions?</strong> Email us at <a href="mailto:privacy@healthbuddy.app">privacy@healthbuddy.app</a>.</p>
+      </div>
+    </div>
+
+    <!-- TERMS CARD -->
+    <div id="mission-card-container">
+      <div class="mission-card">
+        <h2>Terms of Use</h2>
+        <p><strong>Acceptance.</strong> By using PulmoGuard AI, you agree to these Terms. If you disagree, please do not use the service.</p>
+        <p><strong>Service Scope.</strong> HealthBuddy provides informational symptom and lifestyle risk screening based on user-entered data.</p>
+        <p><strong>User Conduct.</strong> You must provide accurate information and not misuse the platform for any unlawful purpose.</p>
+        <p><strong>Intellectual Property.</strong> All code, content, and models are owned by PulmoGuard AI and may not be reproduced or distributed without permission.</p>
+        <p><strong>Disclaimer.</strong> This tool is informational only and does not replace professional medical advice, diagnosis, or treatment.</p>
+        <p><strong>Limitation of Liability.</strong> PulmoGuard AI is not liable for any indirect, incidental, or consequential damages arising from use of the service.</p>
+        <p><strong>Changes.</strong> We may update these Terms at any time; continued use constitutes acceptance of any changes.</p>
+      </div>
+    </div>
+  </main>
+  </div></div>
+
+  <nav class="sidebar close">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img src="/static/logoo.png" alt="logo"/>
+        </span>
+        <div class="text logo-text">
+          <span class="name">HealthBuddy</span>
+          <span class="profession">App</span>
+        </div>
+      </div>
+      <i class="bx bx-chevron-right toggle"></i>
+    </header>
+    <div class="menu-bar">
+      <div class="menu">
+        <li class="search-box">
+          <i class="bx bx-search icon"></i>
+          <input type="text" placeholder="Search..." />
+        </li>
+        <ul class="menu-links">
+          <li class="nav-link"><a href="/dashboard">
+            <i class="bx bx-home-alt icon"></i>
+            <span class="text nav-text">Dashboard</span>
+          </a></li>
+          <li class="nav-link"><a href="/about">
+            <i class="bx bx-info-circle icon"></i>
+            <span class="text nav-text">Our Mission</span>
+          </a></li>
+          <li class="nav-link"><a href="/predictor">
+            <i class="bx bx-rocket icon"></i>
+            <span class="text nav-text">Predictor Tool</span>
+          </a></li>
+          <li class="nav-link"><a href="/privacy">
+            <i class="bx bx-lock icon"></i>
+            <span class="text nav-text">Privacy & Terms of Use</span>
+          </a></li>
+          <li class="nav-link"><a href="/faq">
+            <i class="bx bx-question-mark icon"></i>
+            <span class="text nav-text">FAQ / Help Center</span>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <section class="home"></section>
+  
+  
+  <script>
+    const body = document.querySelector("body"),
+      sidebar = body.querySelector("nav"),
+      toggle = body.querySelector(".toggle"),
+      searchBtn = body.querySelector(".search-box");
+
+    toggle.addEventListener("click", () => {
+      sidebar.classList.toggle("close");
+    });
+
+    searchBtn.addEventListener("click", () => {
+      sidebar.classList.remove("close");
+    });
+
+  </script>
+  </body>
+</html>

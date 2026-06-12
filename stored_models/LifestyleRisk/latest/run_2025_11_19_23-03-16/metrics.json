@@ -1,0 +1,9 @@
+{
+    "device": "cuda",
+    "in_features": 21,
+    "epochs": 12,
+    "final_train_loss": 2514.4508680403233,
+    "final_val_loss": 0.3951299786567688,
+    "test_loss": 0.3937619924545288,
+    "test_accuracy": 0.8506385998107853
+}
